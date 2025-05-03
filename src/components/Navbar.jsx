@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 export default function Navbar() {
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState(""); // ⬅️ Tambahkan state role
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
@@ -31,13 +32,14 @@ export default function Navbar() {
       try {
         const decoded = jwtDecode(token);
         setUsername(decoded.username || decoded.email || "User");
+        setRole(decoded.role); // ⬅️ Set role dari token
       } catch (err) {
         console.error("Token invalid", err);
       }
     }
   }, []);
 
-  // Handle click outside dropdown untuk close menu
+  // Handle click outside dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -92,6 +94,17 @@ export default function Navbar() {
                 Favorit Saya
               </Link>
             </li>
+            {/* ⬇️ Tampilkan link "tambah" HANYA untuk superadmin */}
+            {role === "superadmin" && (
+              <li>
+                <Link
+                  to="/indonesian-recipes"
+                  className="hover:text-yellow-200 transition duration-200"
+                >
+                  Tambah
+                </Link>
+              </li>
+            )}
           </ul>
 
           {/* User Dropdown */}

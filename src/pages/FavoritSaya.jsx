@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { div } from "framer-motion/client";
 import Navbar from "../components/Navbar";
 
 const Favorit = () => {
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const API_KEY = "f83e042219484f66af543881113c9b3a"; // Ganti dengan API kamu
+  const API_KEY = "ff77df9518d849239f74a4fca1ec7bdb"; // Ganti dengan API kamu
 
   const getDetailRecipe = async (recipeId) => {
     try {
@@ -17,7 +16,7 @@ const Favorit = () => {
       );
       return response.data;
     } catch (error) {
-      console.error("Gagal ambil detail resep:", error.message);
+      console.error("Gagal ambil detail resep dari Spoonacular:", error.message);
       return null;
     }
   };
@@ -31,8 +30,34 @@ const Favorit = () => {
 
       const detailedFavorites = await Promise.all(
         res.data.map(async (fav) => {
-          const detail = await getDetailRecipe(fav.recipeId);
-          return { ...fav, detail };
+          if (fav.sourceType === "api") {
+            const detail = await getDetailRecipe(fav.recipeId);
+            return {
+              ...fav,
+              title: fav.title || detail?.title,
+              image: fav.image || detail?.image,
+              detail,
+            };
+          } else if (fav.sourceType === "indonesia") {
+            // Pastikan backend sudah mengirim data bahan dan nutrisi
+            return {
+              ...fav,
+              detail: {
+                extendedIngredients: fav.ingredients?.map((bahan) => ({
+                  original: bahan,
+                })),
+                nutrition: {
+                  nutrients: fav.nutrition?.map((n) => ({
+                    name: n.name,
+                    amount: n.amount,
+                    unit: n.unit,
+                  })),
+                },
+              },
+            };
+          } else {
+            return fav; // fallback untuk data tak dikenal
+          }
         })
       );
 

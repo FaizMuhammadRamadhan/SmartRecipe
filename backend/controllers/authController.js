@@ -26,13 +26,16 @@ const register = async (req, res) => {
       {
         id: user.id,
         role: user.role,
-        username: user.username // ✅ ini penting buat di-decode di frontend!
+        username: user.username
       },
       secretKey,
       { expiresIn: '1h' }
     );
 
-    res.status(201).json({ token });
+    res.status(201).json({
+      message: 'Register berhasil!',
+      token
+    });
   } catch (error) {
     console.error('❌ Error registering user:', error);
     res.status(500).json({ error: error.message });
@@ -58,17 +61,19 @@ const login = async (req, res) => {
       {
         id: user.id,
         role: user.role,
-        username: user.username // ✅ ini juga penting bro
+        username: user.username
       },
       secretKey,
       { expiresIn: '1h' }
     );
 
-    res.status(200).json({ token });
+    // 🔥 Kirim token + role di response
+    res.status(200).json({ token, role: user.role });
   } catch (error) {
     console.error('❌ Error logging in:', error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 module.exports = { register, login };

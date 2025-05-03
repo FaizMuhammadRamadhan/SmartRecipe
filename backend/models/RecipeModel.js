@@ -11,7 +11,7 @@ const RecipeModel = {
         return result.rows[0];
     },
 
-    createRecipe: async (data) => {
+    createRecipe: async (data)  => {
         const { title, image, cuisine, dish_type, ingredients, source_url, spoonacular_score } = data;
         const result = await pool.query(
             `INSERT INTO recipes (title, image, cuisine, dish_type, ingredients, source_url, spoonacular_score)

@@ -1,19 +1,12 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Favorite = sequelize.define("Favorite", {
-  recipeId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+const IndonesianRecipe = sequelize.define("IndonesianRecipe", {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  image: {
-    type: DataTypes.STRING,
-  },
-  source: {
+  imageUrl: {
     type: DataTypes.STRING,
   },
   region: {
@@ -31,15 +24,6 @@ const Favorite = sequelize.define("Favorite", {
   videoUrl: {
     type: DataTypes.STRING,
   },
-  sourceType: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    defaultValue: "api",
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
 });
 
-module.exports = Favorite;
+module.exports = IndonesianRecipe;

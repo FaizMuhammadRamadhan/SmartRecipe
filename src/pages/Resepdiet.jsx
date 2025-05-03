@@ -21,7 +21,7 @@ const Resepdiet = () => {
           params: {
             diet,
             number: 50,
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
           },
         }
       );
@@ -38,7 +38,7 @@ const Resepdiet = () => {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
-          params: { apiKey: "f83e042219484f66af543881113c9b3a" },
+          params: { apiKey: "ff77df9518d849239f74a4fca1ec7bdb" },
         }
       );
       setDetailResep({

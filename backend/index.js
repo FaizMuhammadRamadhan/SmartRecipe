@@ -2,10 +2,9 @@ require("dotenv").config(); // ⬅️ wajib ditaruh sebelum akses process.env
 const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
+const cors = require("cors");
 
 const app = express();
-const cors = require("cors");
 
 // Aktifkan CORS agar frontend bisa akses API
 app.use(
@@ -16,17 +15,24 @@ app.use(
 );
 
 app.use(express.json());
-
-// ... route dan middleware lainnya
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Tambahkan log ini buat ngecek route terbaca atau tidak
+// ✅ Log pengecekan routes
 console.log("🔥 authRoutes loaded");
+console.log("🔥 favoriteRoutes loaded");
+console.log("🔥 indonesianRecipesRoutes loaded");
+
+// ROUTES
+const authRoutes = require("./routes/authRoutes");
+const favoriteRoutes = require("./routes/favoriteRoutes");
+const indonesianRecipesRoutes = require("./routes/indonesianRecipes");
 
 app.use("/api/auth", authRoutes);
+app.use("/api/favorites", favoriteRoutes);
+app.use("/api/indonesian-recipes", indonesianRecipesRoutes); // ✅ Tambahkan baris ini!
 
+// SYNC DB
 sequelize
   .sync({ force: false })
   .then(() => console.log("✅ Database synced!"))
@@ -34,7 +40,3 @@ sequelize
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server berjalan di port ${PORT}`));
-
-const favoriteRoutes = require("./routes/favoriteRoutes");
-app.use("/api/favorites", favoriteRoutes); // ✅ SUDAH BENAR!
-

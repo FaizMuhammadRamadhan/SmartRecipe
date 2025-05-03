@@ -1,3 +1,4 @@
+// ...import yang kamu kirim (semua sudah benar)
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -5,7 +6,7 @@ import bahanMapping from "../constants/bahanMapping";
 import Loading from "../components/Loading";
 import Headerpage from "../components/Headerpage";
 import Navbar from "../components/Navbar";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 
 const formatBahan = (input) => {
   return input
@@ -22,6 +23,12 @@ const CariResep = () => {
   const [detailResep, setDetailResep] = useState(null);
   const [porsi, setPorsi] = useState(1);
   const [bahanPerPorsi, setBahanPerPorsi] = useState([]);
+  const [halamanSaatIni, setHalamanSaatIni] = useState(1);
+
+  const resepPerHalaman = 12;
+  const indeksResepTerakhir = halamanSaatIni * resepPerHalaman;
+  const indeksResepPertama = indeksResepTerakhir - resepPerHalaman;
+  const resepSaatIni = resep.slice(indeksResepPertama, indeksResepTerakhir);
 
   const getRecipes = async () => {
     if (!bahan) return;
@@ -34,12 +41,12 @@ const CariResep = () => {
           params: {
             ingredients: formattedBahan,
             number: 100,
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
           },
         }
       );
-
       setResep(response.data);
+      setHalamanSaatIni(1);
       localStorage.setItem("hasilPencarian", JSON.stringify(response.data));
     } catch (error) {
       console.error("Error fetching recipes:", error.message);
@@ -75,10 +82,8 @@ const CariResep = () => {
 
   const handleUbahPorsi = (nilaiPorsiBaru) => {
     if (!detailResep) return;
-
     const porsiValid = Math.max(1, nilaiPorsiBaru);
     const faktor = porsiValid / detailResep.servings;
-
     const bahanBaru = detailResep.extendedIngredients.map((item) => ({
       ...item,
       amount: item.amount
@@ -97,13 +102,10 @@ const CariResep = () => {
     setPorsi(porsiValid);
   };
 
-  const closeDetail = () => {
-    setDetailResep(null);
-  };
+  const closeDetail = () => setDetailResep(null);
 
   const tambahFavorit = async (resep) => {
     const token = localStorage.getItem("token");
-
     if (!token) {
       return Swal.fire({
         icon: "warning",
@@ -114,7 +116,7 @@ const CariResep = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/favorites", // ✅ cocok dengan backend      
+        "http://localhost:5000/api/favorites",
         {
           recipeId: resep.id,
           title: resep.title,
@@ -142,12 +144,6 @@ const CariResep = () => {
     }
   };
 
-  const [halamanSaatIni, setHalamanSaatIni] = useState(1);
-  const resepPerHalaman = 12;
-  const indeksResepTerakhir = halamanSaatIni * resepPerHalaman;
-  const indeksResepPertama = indeksResepTerakhir - resepPerHalaman;
-  const resepSaatIni = resep.slice(indeksResepPertama, indeksResepTerakhir);
-
   const gantiHalaman = (nomorHalaman) => setHalamanSaatIni(nomorHalaman);
 
   return (
@@ -163,6 +159,7 @@ const CariResep = () => {
             Cari Resep Lezat
           </Headerpage>
 
+          {/* Input & Tombol Cari */}
           <div className="flex gap-3 mb-8">
             <input
               type="text"
@@ -181,6 +178,7 @@ const CariResep = () => {
 
           {loading && <Loading />}
 
+          {/* Kartu Hasil Pencarian */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {resepSaatIni.map((item) => (
               <motion.div
@@ -199,9 +197,6 @@ const CariResep = () => {
                   <h2 className="text-lg font-bold text-[#2E5077] truncate">
                     {item.title}
                   </h2>
-                  <div className="text-sm text-gray-500 mt-2">
-                    🍽️ Porsi: {item.servings} | ⏱️ {item.readyInMinutes} menit
-                  </div>
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => lihatDetailResep(item.id)}
@@ -221,6 +216,7 @@ const CariResep = () => {
             ))}
           </div>
 
+          {/* Pagination */}
           <div className="flex justify-center mt-8 space-x-2">
             {Array.from(
               { length: Math.ceil(resep.length / resepPerHalaman) },
@@ -240,6 +236,7 @@ const CariResep = () => {
             )}
           </div>
 
+          {/* Modal Detail Resep */}
           {detailResep && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
               <div className="bg-white p-6 rounded-2xl w-[90%] md:w-[70%] lg:w-[60%] max-h-[90vh] overflow-y-auto shadow-2xl relative">
@@ -301,7 +298,7 @@ const CariResep = () => {
                   </h3>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: detailResep.instructions,
+                      __html: detailResep.instructions || "<p>Tidak tersedia.</p>",
                     }}
                     className="text-gray-700 leading-relaxed"
                   />
@@ -310,23 +307,18 @@ const CariResep = () => {
                 {detailResep.nutrition && (
                   <div className="mb-6">
                     <h3 className="text-2xl font-bold text-[#2E5077] mb-2">
-                      🍎 Kandungan Nutrisi:
+                      🧪 Informasi Nutrisi:
                     </h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      {detailResep.nutrition.nutrients.map((nutrient) => (
-                        <div
-                          key={nutrient.name}
-                          className="bg-gray-100 p-3 rounded-lg shadow-sm flex justify-between"
-                        >
-                          <span className="font-medium text-gray-700">
-                            {nutrient.name}
-                          </span>
-                          <span className="font-bold text-[#2E5077]">
-                            {nutrient.amount} {nutrient.unit}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                    <ul className="text-gray-700 list-disc list-inside">
+                      {detailResep.nutrition.nutrients
+                        .slice(0, 6)
+                        .map((nutrisi, index) => (
+                          <li key={index}>
+                            {nutrisi.name}: {nutrisi.amount}
+                            {nutrisi.unit}
+                          </li>
+                        ))}
+                    </ul>
                   </div>
                 )}
               </div>

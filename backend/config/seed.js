@@ -16,7 +16,6 @@ const seed = async () => {
       password: 'admin123',
       role: 'superadmin',
     });
-
     console.log('Seeding successful!');
   } catch (error) {
     console.error('Seeding failed:', error);

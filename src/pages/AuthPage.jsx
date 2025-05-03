@@ -25,27 +25,31 @@ export default function AuthPage() {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
       const payload = isLogin
         ? { email: formData.email, password: formData.password }
-        : { ...formData, role: "user" };
-  
+        : { ...formData, role: "user" }; // register default sebagai user
+
       const response = await axios.post(endpoint, payload);
-  
+
       if (isLogin) {
-        const token = response.data.token;
+        const { token, role } = response.data; // Ambil token + role dari response
+
+        // Simpan token dan role ke localStorage
         localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
+
         Swal.fire({
           icon: "success",
           title: "Login berhasil!",
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/homepage"); // ⬅️ ke homepage
+        navigate("/homepage");
       } else {
         Swal.fire({
           icon: "success",
           title: "Registrasi berhasil!",
           text: "Silakan login untuk melanjutkan.",
         });
-        setIsLogin(true); // ⬅️ ubah ke mode login
+        setIsLogin(true); // ubah ke mode login setelah berhasil register
       }
     } catch (error) {
       Swal.fire({
@@ -55,13 +59,12 @@ export default function AuthPage() {
       });
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white px-4 animate-fade-in">
       <div className="bg-white shadow-xl rounded-3xl w-full max-w-md p-10 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
         <h2 className="text-3xl font-extrabold text-center mb-6 text-teal-500">
-          {isLogin ? "Login" : "Register"} ke SmartRecipe 🍽️
+          {isLogin ? "Login" : "Register"} ke SmartRecipe
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
@@ -71,7 +74,7 @@ export default function AuthPage() {
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
           )}
@@ -81,7 +84,7 @@ export default function AuthPage() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             required
           />
           <input
@@ -90,7 +93,7 @@ export default function AuthPage() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
             required
           />
           <button

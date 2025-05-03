@@ -27,7 +27,7 @@ const ResepNegara = () => {
           params: {
             cuisine: countryMapping[negara.toLowerCase()],
             number: 100,
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
           },
         }
       );
@@ -45,7 +45,7 @@ const ResepNegara = () => {
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
           params: {
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
           },
         }
       );

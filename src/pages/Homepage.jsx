@@ -75,7 +75,6 @@ const Homepage = () => {
           Jelajahi fitur menarik yang siap membantu kamu menemukan inspirasi
           memasak!
         </p>
-
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 px-5 mb-6">
           {Fitur.map((list, index) => (
             <motion.div
