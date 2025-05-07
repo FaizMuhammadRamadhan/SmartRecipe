@@ -8,7 +8,7 @@ const ResepIndonesia = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 6; // Tampilkan 6 resep per halaman
+  const recipesPerPage = 6; 
 
   useEffect(() => {
     fetchRecipes();

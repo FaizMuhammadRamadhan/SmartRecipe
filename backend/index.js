@@ -1,4 +1,4 @@
-require("dotenv").config(); // ⬅️ wajib ditaruh sebelum akses process.env
+require("dotenv").config(); 
 const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./config/db");
@@ -6,10 +6,9 @@ const cors = require("cors");
 
 const app = express();
 
-// Aktifkan CORS agar frontend bisa akses API
 app.use(
   cors({
-    origin: "http://localhost:5173", // sesuaikan dengan alamat frontend kamu
+    origin: "http://localhost:5173", 
     credentials: true,
   })
 );
@@ -18,21 +17,21 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Log pengecekan routes
 console.log("🔥 authRoutes loaded");
 console.log("🔥 favoriteRoutes loaded");
 console.log("🔥 indonesianRecipesRoutes loaded");
 
-// ROUTES
 const authRoutes = require("./routes/authRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const indonesianRecipesRoutes = require("./routes/indonesianRecipes");
+const userRoutes = require("./routes/userRoutes"); // ✅ Tambahkan ini
 
 app.use("/api/auth", authRoutes);
 app.use("/api/favorites", favoriteRoutes);
-app.use("/api/indonesian-recipes", indonesianRecipesRoutes); // ✅ Tambahkan baris ini!
+app.use("/api/indonesian-recipes", indonesianRecipesRoutes);
+app.use("/api/users", userRoutes); // ✅ Tambahkan ini juga
 
-// SYNC DB
+
 sequelize
   .sync({ force: false })
   .then(() => console.log("✅ Database synced!"))

@@ -56,11 +56,13 @@ export default function Navbar() {
       <li><Link to="/lihatfitur">Lihat Fitur</Link></li>
       <li><Link to="/favorit-saya">Favorit Saya</Link></li>
       {role === "superadmin" && (
+        <>
         <li><Link to="/indonesian-recipes">Tambah</Link></li>
+        <li><Link to="/manage-users">Manage Akun</Link></li>
+        </>
       )}
     </>
   );
-
   return (
     <nav className="bg-[#C9E9D2] w-full shadow-md relative z-50">
       <div className="container py-2">

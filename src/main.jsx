@@ -18,7 +18,7 @@ import ResepIndonesia from "./pages/ResepIndonesia";
 import ListRecipes from "./pages/IndonesianRecipes/ListRecipes";
 import AddRecipe from "./pages/IndonesianRecipes/AddRecipe";
 import EditRecipe from "./pages/IndonesianRecipes/EditRecipe";
-// import ManageUsers from "./pages/ManageUsers";
+import ManageUsers from "./pages/ManageUsers";
 
 // Import Components
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -150,15 +150,15 @@ const router = createBrowserRouter([
     ),
     errorElement: <NotFound />,
   },
-  // {
-  //   path: "/manage-users",
-  //   element: (
-  //     <ProtectedRoute allowedRole="superadmin">
-  //       <ManageUsers />
-  //     </ProtectedRoute>
-  //   ),
-  //   errorElement: <NotFound />,
-  // },
+  {
+    path: "/manage-users",
+    element: (
+      <ProtectedRoute allowedRole="superadmin">
+        <ManageUsers />
+      </ProtectedRoute>
+    ),
+    errorElement: <NotFound />,
+  },
   // ===== WILDCARD / semua path tidak dikenal =====
   {
     path: "*",

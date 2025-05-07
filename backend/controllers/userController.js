@@ -1,53 +1,94 @@
-// const User = require("../models/User");
-// const bcrypt = require("bcryptjs");
-
-// exports.updateProfile = async (req, res) => {
-//   const { email, password } = req.body;
-//   try {
-//     const updatedData = {};
-//     if (email) updatedData.email = email;
-//     if (password) updatedData.password = await bcrypt.hash(password, 10);
-
-//     await User.update(updatedData, { where: { id: req.user.id } });
-
-//     res.json({ message: "Profil berhasil diperbarui" });
-//   } catch (error) {
-//     console.error("Error updating profile:", error);
-//     res.status(500).json({ error: "Gagal memperbarui profil" });
-//   }
-// };
-
+const { User } = require("../models");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 
-const updateProfile = async (req, res) => {
+// CREATE
+const createUser = async (req, res) => {
   try {
-    const userId = req.user.id; // ✅ dari middleware autentikasi
-    const { email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
-    const updatedFields = {};
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    if (email) updatedFields.email = email;
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    res.status(201).json(newUser);
+  } catch (err) {
+    console.error("Gagal membuat user:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// READ semua user
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+    });
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// READ user by ID
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id, {
+      attributes: { exclude: ["password"] },
+    });
+    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// UPDATE
+const updateUser = async (req, res) => {
+  try {
+    const { username, email, password, role } = req.body;
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+
+    const updatedData = {
+      username,
+      email,
+      role,
+    };
+
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      updatedFields.password = hashedPassword;
+      updatedData.password = await bcrypt.hash(password, 10);
     }
 
-    const user = await User.findByPk(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User tidak ditemukan" });
-    }
+    await user.update(updatedData);
 
-    await user.update(updatedFields);
+    res.json({ message: "User berhasil diperbarui" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-    res.status(200).json({ message: "Profil berhasil diperbarui" });
-  } catch (error) {
-    console.error("❌ Gagal update profil:", error.message);
-    res.status(500).json({ error: "Terjadi kesalahan saat update profil" });
+// DELETE
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+
+    await user.destroy();
+    res.json({ message: "User berhasil dihapus" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 module.exports = {
-  updateProfile,
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
 };

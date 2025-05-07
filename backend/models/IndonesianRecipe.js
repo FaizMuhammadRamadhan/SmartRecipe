@@ -25,5 +25,4 @@ const IndonesianRecipe = sequelize.define("IndonesianRecipe", {
     type: DataTypes.STRING,
   },
 });
-
 module.exports = IndonesianRecipe;

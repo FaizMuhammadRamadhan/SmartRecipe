@@ -3,11 +3,14 @@ const jwt = require("jsonwebtoken");
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return res.sendStatus(401); // Unauthorized
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403); // Forbidden
-    req.user = user; // ✅ user.id akan dipakai di controller favorit
+  if (!token) return res.status(401).json({ message: "Token tidak ditemukan" });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(403).json({ message: "Token tidak valid" });
+
+    // Harusnya token menyimpan info: id, email, role
+    req.user = decoded;
     next();
   });
 };
