@@ -5,8 +5,9 @@ import Swal from "sweetalert2";
 
 export default function Navbar() {
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState(""); // ⬅️ Tambahkan state role
+  const [role, setRole] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef();
 
@@ -32,14 +33,13 @@ export default function Navbar() {
       try {
         const decoded = jwtDecode(token);
         setUsername(decoded.username || decoded.email || "User");
-        setRole(decoded.role); // ⬅️ Set role dari token
+        setRole(decoded.role);
       } catch (err) {
         console.error("Token invalid", err);
       }
     }
   }, []);
 
-  // Handle click outside dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -49,95 +49,78 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+  const navLinks = (
+    <>
+      <li><Link to="/homepage">Homepage</Link></li>
+      <li><Link to="/about">About</Link></li>
+      <li><Link to="/lihatfitur">Lihat Fitur</Link></li>
+      <li><Link to="/favorit-saya">Favorit Saya</Link></li>
+      {role === "superadmin" && (
+        <li><Link to="/indonesian-recipes">Tambah</Link></li>
+      )}
+    </>
+  );
 
   return (
-    <nav className="bg-[#79D7BE] w-full shadow-md">
+    <nav className="bg-[#C9E9D2] w-full shadow-md relative z-50">
       <div className="container py-2">
-        <div className="nav-box flex justify-between mx-4 items-center">
+        <div className="flex justify-between items-center mx-4">
           {/* Logo */}
-          <div className="logo flex items-center">
+          <div className="flex items-center">
             <img src="images/logo.png" alt="logo" className="w-20" />
-            <h1 className="font-bold text-lg">SmartRecipe</h1>
+            <h1 className="font-bold text-lg hidden sm:flex">SmartRecipe</h1>
           </div>
 
-          {/* Link Navigasi */}
-          <ul className="nav-link flex gap-8 text-white font-medium">
-            <li>
-              <Link
-                to="/homepage"
-                className="hover:text-yellow-200 transition duration-200"
-              >
-                Homepage
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-yellow-200 transition duration-200"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/lihatfitur"
-                className="hover:text-yellow-200 transition duration-200"
-              >
-                Lihat Fitur
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/favorit-saya"
-                className="hover:text-yellow-200 transition duration-200"
-              >
-                Favorit Saya
-              </Link>
-            </li>
-            {/* ⬇️ Tampilkan link "tambah" HANYA untuk superadmin */}
-            {role === "superadmin" && (
-              <li>
-                <Link
-                  to="/indonesian-recipes"
-                  className="hover:text-yellow-200 transition duration-200"
-                >
-                  Tambah
-                </Link>
-              </li>
-            )}
+          {/* Desktop Nav */}
+          <ul className="hidden xl:flex gap-8 font-medium text-black">
+            {navLinks}
           </ul>
+
 
           {/* User Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <div
-              className="user flex items-center gap-2 cursor-pointer text-white font-medium hover:text-yellow-300 transition"
+              className="user flex items-center gap-2 cursor-pointer font-medium hover:text-yellow-300 transition"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
-              <i className="ri-user-3-line text-xl"></i>
-              <span>{username}</span>
-              <i
-                className={`ri-arrow-down-s-line transition ${
-                  dropdownOpen ? "rotate-180" : ""
-                }`}
-              ></i>
+              <i className="ri-user-3-line text-xl text-black"></i>
+              <span className="text-black">{username}</span>
+              <i className={`ri-arrow-down-s-line text-black transition ${dropdownOpen ? "rotate-180" : ""}`}></i>
             </div>
-
-            {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-white hover:rounded-lg shadow-lg z-50 animate-dropdown">
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50 animate-dropdown">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm hover:bg-red-100 hover:rounded-lg text-red-600 font-medium"
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-red-100 rounded text-red-600 font-medium"
                 >
                   Logout
                 </button>
               </div>
             )}
           </div>
+           {/* Hamburger */}
+          <button
+            className="xl:hidden text-2xl text-black text-center"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <i className="ri-menu-line"></i>
+          </button>
         </div>
       </div>
 
-      {/* Animasi Dropdown */}
+      {/* Sidebar Mobile */}
+      <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform ${sidebarOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 z-40`}>
+        <div className="p-4">
+          <button className="text-2xl mb-4" onClick={() => setSidebarOpen(false)}>
+            <i className="ri-close-line"></i>
+          </button>
+          <ul className="flex flex-col gap-4 font-medium text-black">
+            {navLinks}
+          </ul>
+        </div>
+      </div>
+
+      {/* Animasi */}
       <style>
         {`
           .animate-dropdown {

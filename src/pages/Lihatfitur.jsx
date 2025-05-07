@@ -7,19 +7,19 @@ import { div } from "framer-motion/client";
 const Fitur = [
   {
     id: 1,
+    foto: "images/resep-makanan-anak.png",
+    judul: "Resep Masakan Indonesia",
+    deskripsi:
+      "Resep sehat dan lezat asal indonesia, dengan tampilan menarik dan rasa nikmat!",
+    link: "/resepindonesia",
+  },
+  {
+    id: 2,
     foto: "images/cari-resep.png",
     judul: "Cari Resep",
     deskripsi:
       "Masukkan bahan yang kamu miliki di rumah, dan temukan resep lezat yang bisa dibuat dengan mudah!",
     link: "/cariresep",
-  },
-  {
-    id: 2,
-    foto: "images/resep-diet.png",
-    judul: "Resep Diet",
-    deskripsi:
-      "Temukan resep sehat yang cocok untuk kebutuhan dietmu, mulai dari keto, vegan, hingga low-carb!",
-    link: "/resepdiet",
   },
   {
     id: 3,
@@ -31,18 +31,18 @@ const Fitur = [
   },
   {
     id: 4,
-    foto: "images/resep-makanan-anak.png",
-    judul: "Resep Masakan Indonesia",
+    foto: "images/resep-diet.png",
+    judul: "Resep Diet",
     deskripsi:
-      "Resep sehat dan lezat asal indonesia, dengan tampilan menarik dan rasa nikmat!",
-    link: "/resepindonesia",
+      "Temukan resep sehat yang cocok untuk kebutuhan dietmu, mulai dari keto, vegan, hingga low-carb!",
+    link: "/resepdiet",
   },
 ];
 const Lihatfitur = () => {
   return (
     <div>
       <Navbar />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-5 mb-6 my-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-16 mb-6 my-5">
         {Fitur.map((list, index) => (
           <motion.div
             key={list.id}
@@ -58,7 +58,7 @@ const Lihatfitur = () => {
             whileTap={{ scale: 0.98 }}
           >
             <Link to={list.link}>
-              <div className="bg-black min-h-[250px] rounded-xl p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
+              <div className="bg-black min-h-[220px] rounded-xl p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
                 <motion.img
                   src={list.foto}
                   alt={list.judul}

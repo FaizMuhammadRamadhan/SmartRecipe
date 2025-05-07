@@ -6,19 +6,19 @@ import Navbar from "../components/Navbar";
 const Fitur = [
   {
     id: 1,
+    foto: "images/resep-makanan-anak.png",
+    judul: "Resep Masakan Indonesia",
+    deskripsi:
+      "Resep sehat dan lezat asal indonesia, dengan tampilan menarik dan rasa nikmat!",
+    link: "/resepindonesia",
+  },
+  {
+    id: 2,
     foto: "images/cari-resep.png",
     judul: "Cari Resep",
     deskripsi:
       "Masukkan bahan yang kamu miliki di rumah, dan temukan resep lezat yang bisa dibuat dengan mudah!",
     link: "/cariresep",
-  },
-  {
-    id: 2,
-    foto: "images/resep-diet.png",
-    judul: "Resep Diet",
-    deskripsi:
-      "Temukan resep sehat yang cocok untuk kebutuhan dietmu, mulai dari keto, vegan, hingga low-carb!",
-    link: "/resepdiet",
   },
   {
     id: 3,
@@ -30,11 +30,11 @@ const Fitur = [
   },
   {
     id: 4,
-    foto: "images/resep-makanan-anak.png",
-    judul: "Resep Masakan Indonesia",
+    foto: "images/resep-diet.png",
+    judul: "Resep Diet",
     deskripsi:
-      "Resep sehat dan lezat asal indonesia, dengan tampilan menarik dan rasa nikmat!",
-    link: "/resepindonesia",
+      "Temukan resep sehat yang cocok untuk kebutuhan dietmu, mulai dari keto, vegan, hingga low-carb!",
+    link: "/resepdiet",
   },
 ];
 
@@ -45,7 +45,7 @@ const Homepage = () => {
 
       {/* <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-r from-[#3b82f6] to-[#2563eb] -z-10 rounded-b-[50%] transform scale-150 opacity-20 blur-3xl"></div> */}
 
-      <div className="relative bg-[#71BBB2] text-white py-20">
+      <div className="relative bg-[#85A98F] text-white py-20">
         <div className="container mx-auto text-center px-4">
           <motion.h1
             className="text-4xl md:text-5xl font-extrabold mb-4"
@@ -75,7 +75,7 @@ const Homepage = () => {
           Jelajahi fitur menarik yang siap membantu kamu menemukan inspirasi
           memasak!
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 px-5 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 px-20 mb-6">
           {Fitur.map((list, index) => (
             <motion.div
               key={list.id}
@@ -91,7 +91,7 @@ const Homepage = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Link to={list.link}>
-                <div className="bg-black min-h-[320px] rounded-xl p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
+                <div className="bg-black md:min-h-[220px] rounded-xl md:p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
                   <motion.img
                     src={list.foto}
                     alt={list.judul}

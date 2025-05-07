@@ -58,9 +58,9 @@ const ListRecipes = () => {
           <h1 className="text-3xl font-bold">Resep Masakan Indonesia</h1>
           <Link
             to="/indonesian-recipes/add"
-            className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold transition"
+            className="bg-green-500 hover:bg-green-600 text-white  px-5 py-3 rounded-lg font-semibold transition"
           >
-            + Tambah Resep
+            Tambah Resep
           </Link>
         </div>
 
@@ -70,7 +70,7 @@ const ListRecipes = () => {
             placeholder="Cari resep berdasarkan nama makanan..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4E1F00] block mx-auto"
           />
         </div>
 

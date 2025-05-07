@@ -25,14 +25,10 @@ export default function AuthPage() {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
       const payload = isLogin
         ? { email: formData.email, password: formData.password }
-        : { ...formData, role: "user" }; // register default sebagai user
-
+        : { ...formData, role: "user" }; 
       const response = await axios.post(endpoint, payload);
-
       if (isLogin) {
-        const { token, role } = response.data; // Ambil token + role dari response
-
-        // Simpan token dan role ke localStorage
+        const { token, role } = response.data; 
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
 
@@ -49,7 +45,7 @@ export default function AuthPage() {
           title: "Registrasi berhasil!",
           text: "Silakan login untuk melanjutkan.",
         });
-        setIsLogin(true); // ubah ke mode login setelah berhasil register
+        setIsLogin(true); 
       }
     } catch (error) {
       Swal.fire({
@@ -61,10 +57,11 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white px-4 animate-fade-in">
-      <div className="bg-white shadow-xl rounded-3xl w-full max-w-md p-10 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
-        <h2 className="text-3xl font-extrabold text-center mb-6 text-teal-500">
-          {isLogin ? "Login" : "Register"} ke SmartRecipe
+    <div className="flex items-center justify-center min-h-screen bg-[#C89595] px-4 animate-fade-in">
+      <div className="bg-[#FDEFEF] shadow-xl rounded-3xl w-full max-w-md p-10 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
+        <img src="images/logo.png" alt="" className="w-32 mx-auto"/>
+        <h2 className="text-3xl font-extrabold text-center mb-6 text-[#735557]">
+          {isLogin ? "LOGIN" : "REGISTER"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
@@ -74,7 +71,7 @@ export default function AuthPage() {
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+              className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
               required
             />
           )}
@@ -84,7 +81,7 @@ export default function AuthPage() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
             required
           />
           <input
@@ -93,12 +90,12 @@ export default function AuthPage() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
             required
           />
           <button
             type="submit"
-            className="w-full bg-teal-500 text-white py-3 font-semibold rounded-xl hover:bg-teal-600 transition duration-300"
+            className="w-full bg-[#C89595] text-white py-3 font-semibold rounded-xl hover:bg-[#4E1F00] transition duration-300"
           >
             {isLogin ? "Login" : "Register"}
           </button>
@@ -107,7 +104,7 @@ export default function AuthPage() {
           {isLogin ? "Belum punya akun?" : "Sudah punya akun?"}{" "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-teal-500 hover:underline font-medium"
+            className="text-[#4E1F00] hover:underline font-medium"
           >
             {isLogin ? "Daftar sekarang" : "Login di sini"}
           </button>
