@@ -76,22 +76,37 @@ const ManageUser = () => {
   };
 
   const handleDelete = async (id) => {
+    const currentUserId = JSON.parse(
+      atob(localStorage.getItem("token").split(".")[1])
+    ).id;
+
+    if (id === currentUserId) {
+      return Swal.fire(
+        "Gagal!",
+        "Anda tidak dapat menghapus akun Anda sendiri.",
+        "warning"
+      );
+    }
+
     const confirm = await Swal.fire({
       title: "Yakin hapus user ini?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, hapus",
     });
+
     if (confirm.isConfirmed) {
       try {
         const token = localStorage.getItem("token");
-        await axios.delete(`/api/users/${id}`, {
+        await axios.delete(`http://localhost:5000/api/users/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         Swal.fire("Terhapus!", "User berhasil dihapus.", "success");
         fetchUsers();
       } catch (err) {
-        Swal.fire("Gagal!", "Tidak bisa menghapus user.", "error");
+        const errorMessage =
+          err.response?.data?.error || "Tidak bisa menghapus user.";
+        Swal.fire("Gagal!", errorMessage, "error");
       }
     }
   };

@@ -45,7 +45,7 @@ const Homepage = () => {
 
       {/* <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-r from-[#3b82f6] to-[#2563eb] -z-10 rounded-b-[50%] transform scale-150 opacity-20 blur-3xl"></div> */}
 
-      <div className="relative bg-[#85A98F] text-white py-20">
+      <div className="relative bg-[#735557] text-white py-20">
         <div className="container mx-auto text-center px-4">
           <motion.h1
             className="text-4xl md:text-5xl font-extrabold mb-4"
@@ -75,7 +75,7 @@ const Homepage = () => {
           Jelajahi fitur menarik yang siap membantu kamu menemukan inspirasi
           memasak!
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 px-20 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-20 mb-6 py-2">
           {Fitur.map((list, index) => (
             <motion.div
               key={list.id}
@@ -91,11 +91,11 @@ const Homepage = () => {
               whileTap={{ scale: 0.98 }}
             >
               <Link to={list.link}>
-                <div className="bg-black md:min-h-[220px] rounded-xl md:p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
+                <div className="bg-black md:min-h-[220px] rounded-xl p-5 text-white shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex flex-col border border-gray-700 hover:border-[#3b82f6]">
                   <motion.img
                     src={list.foto}
                     alt={list.judul}
-                    className="w-24 h-24 mx-auto mb-4 transition-all duration-300 hover:scale-110"
+                    className="w-20 h-20 md:h-24 mx-auto mb-4 transition-all duration-300 hover:scale-110"
                     whileHover={{ rotate: 10 }}
                   />
                   <div className="flex-grow flex flex-col justify-between text-center">
@@ -103,9 +103,6 @@ const Homepage = () => {
                     <p className="text-sm text-gray-400 mt-2 line-clamp-3">
                       {list.deskripsi}
                     </p>
-                    {/* <Button variant="bg-[#3b82f6] w-full py-2 font-bold rounded-md mt-4 text-white hover:bg-[#2563eb] transition duration-300">
-                      Mulai Mencari
-                    </Button> */}
                   </div>
                 </div>
               </Link>

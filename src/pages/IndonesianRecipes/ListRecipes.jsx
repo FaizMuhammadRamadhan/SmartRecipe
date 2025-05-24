@@ -78,7 +78,7 @@ const ListRecipes = () => {
           {filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
+              className="bg-black rounded-lg shadow-md overflow-hidden hover:shadow-lg transition"
             >
               <img
                 src={recipe.imageUrl}
@@ -89,8 +89,8 @@ const ListRecipes = () => {
                 }
               />
               <div className="p-4">
-                <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
-                <p className="text-gray-500 text-sm mb-4">{recipe.region}</p>
+                <h2 className="text-white text-xl font-bold mb-2">{recipe.title}</h2>
+                <p className="text-white text-sm mb-4">{recipe.region}</p>
                 <div className="flex gap-3">
                   <Link
                     to={`/indonesian-recipes/edit/${recipe.id}`}

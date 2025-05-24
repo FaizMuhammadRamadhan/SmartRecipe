@@ -116,7 +116,7 @@ const ResepNegara = () => {
       <div className="min-h-screen bg-gray-50 p-6">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl font-extrabold text-center text-[#2E5077] mb-6">
-            🌍 Resep dari Berbagai Negara
+            Resep dari Berbagai Negara
           </h1>
           <p className="text-center text-gray-500 mb-8">
             Pilih negara dan temukan resep lezat dari seluruh dunia!

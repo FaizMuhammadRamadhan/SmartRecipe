@@ -64,12 +64,12 @@ export default function Navbar() {
     </>
   );
   return (
-    <nav className="bg-[#C9E9D2] w-full shadow-md relative z-50">
+    <nav className="bg-[#C89595] w-full shadow-md relative z-50">
       <div className="container py-2">
         <div className="flex justify-between items-center mx-4">
           {/* Logo */}
           <div className="flex items-center">
-            <img src="images/logo.png" alt="logo" className="w-20" />
+            <img src="/images/logo.png" alt="logo" className="w-20" />
             <h1 className="font-bold text-lg hidden sm:flex">SmartRecipe</h1>
           </div>
 
@@ -78,11 +78,10 @@ export default function Navbar() {
             {navLinks}
           </ul>
 
-
           {/* User Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <div
-              className="user flex items-center gap-2 cursor-pointer font-medium hover:text-yellow-300 transition"
+              className="user flex items-center gap-2 cursor-pointer font-medium transition"
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               <i className="ri-user-3-line text-xl text-black"></i>

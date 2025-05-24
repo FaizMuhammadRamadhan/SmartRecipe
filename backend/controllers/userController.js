@@ -77,6 +77,14 @@ const deleteUser = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+    if (req.user.id === parseInt(req.params.id)) {
+      console.log("req.user:", req.user);
+      console.log("req.params.id:", req.params.id);
+
+      return res
+        .status(400)
+        .json({ error: "Anda tidak dapat menghapus akun Anda sendiri." });
+    }
 
     await user.destroy();
     res.json({ message: "User berhasil dihapus" });

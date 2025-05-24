@@ -106,12 +106,12 @@ const Favorit = () => {
     <div>
       <Navbar />
       <div className="container mx-auto px-4 py-6">
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">
-          ⭐ Daftar Resep Favoritmu
+        <h2 className="text-3xl font-bold mb-6 text-center text-white bg-black md:w-100 mx-auto py-2 rounded-sm">
+          Daftar Resep Favoritmu
         </h2>
 
         {favorites.length === 0 ? (
-          <p className="text-center text-gray-500">Belum ada resep favorit.</p>
+          <p className="text-center text-gray-500 text-2xl">Belum ada resep favorit.</p>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

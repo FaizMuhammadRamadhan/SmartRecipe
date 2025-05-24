@@ -70,9 +70,6 @@ const Lihatfitur = () => {
                   <p className="text-sm text-gray-400 mt-2 line-clamp-3">
                     {list.deskripsi}
                   </p>
-                  {/* <Button variant="bg-[#3b82f6] w-full py-2 font-bold rounded-md mt-4 text-white hover:bg-[#2563eb] transition duration-300">
-              Mulai Mencari
-            </Button> */}
                 </div>
               </div>
             </Link>
