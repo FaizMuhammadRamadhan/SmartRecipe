@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const Resepdiet = () => {
   const [diet, setDiet] = useState("balanced");
@@ -11,6 +12,8 @@ const Resepdiet = () => {
   const [loading, setLoading] = useState(false);
   const [detailResep, setDetailResep] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 9;
 
   const getDietRecipes = async () => {
     setLoading(true);
@@ -21,7 +24,7 @@ const Resepdiet = () => {
           params: {
             diet,
             number: 50,
-            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
+            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
           },
         }
       );
@@ -38,7 +41,7 @@ const Resepdiet = () => {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
-          params: { apiKey: "ff77df9518d849239f74a4fca1ec7bdb" },
+          params: { apiKey: "017e95c3962f4bcea358dfb7e50c99e2" },
         }
       );
       setDetailResep({
@@ -55,6 +58,7 @@ const Resepdiet = () => {
       console.error("Gagal mengambil detail resep:", error.message);
     }
   };
+
   const tambahFavorit = async (resep) => {
     const token = localStorage.getItem("token");
 
@@ -68,7 +72,7 @@ const Resepdiet = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/favorites", // ✅ cocok dengan backend      
+        "http://localhost:5000/api/favorites",
         {
           recipeId: resep.id,
           title: resep.title,
@@ -100,6 +104,11 @@ const Resepdiet = () => {
     getDietRecipes();
   }, [diet]);
 
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+  const totalPages = Math.ceil(recipes.length / recipesPerPage);
+
   return (
     <div>
       <Navbar />
@@ -112,7 +121,10 @@ const Resepdiet = () => {
           <div className="flex gap-3 mb-8">
             <select
               value={diet}
-              onChange={(e) => setDiet(e.target.value)}
+              onChange={(e) => {
+                setDiet(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-[#3b82f6]"
             >
               <option value="balanced">Seimbang</option>
@@ -126,7 +138,7 @@ const Resepdiet = () => {
           {loading && <Loading />}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {recipes.map((item) => (
+            {currentRecipes.map((item) => (
               <motion.div
                 key={item.id}
                 className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-transform transform hover:scale-105"
@@ -143,7 +155,7 @@ const Resepdiet = () => {
                   <h2 className="text-lg font-bold text-[#2E5077] truncate">
                     {item.title}
                   </h2>
-                  <div className="flex flex-col gap-2 mt-3">
+                  <div className="grid grid-cols-2 gap-2 mt-3">
                     <button
                       onClick={() => getDetailResep(item.id)}
                       className="bg-[#3b82f6] text-white w-full py-2 font-semibold rounded-lg hover:bg-[#2563eb]"
@@ -160,6 +172,25 @@ const Resepdiet = () => {
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center items-center mt-10 gap-2">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+              (number) => (
+                <button
+                  key={number}
+                  onClick={() => setCurrentPage(number)}
+                  className={`px-4 py-2 rounded-lg font-semibold ${
+                    currentPage === number
+                      ? "bg-[#735557] text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-[#C89595]"
+                  }`}
+                >
+                  {number}
+                </button>
+              )
+            )}
           </div>
 
           <AnimatePresence>
@@ -185,10 +216,10 @@ const Resepdiet = () => {
                     {detailResep.title}
                   </h2>
                   <p className="text-gray-600 mb-2">
-                    ⏳ Waktu Memasak: {detailResep.readyInMinutes} menit
+                    Waktu Memasak: {detailResep.readyInMinutes} menit
                   </p>
                   <p className="text-gray-600 mb-2">
-                    ⭐ Skor: {detailResep.score.toFixed(1)}
+                    Skor: {detailResep.score.toFixed(1)}
                   </p>
                   <ul className="list-disc pl-5 mb-4">
                     {detailResep.ingredients.map((ing) => (
@@ -211,9 +242,11 @@ const Resepdiet = () => {
                 </motion.div>
               </motion.div>
             )}
+            ;
           </AnimatePresence>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

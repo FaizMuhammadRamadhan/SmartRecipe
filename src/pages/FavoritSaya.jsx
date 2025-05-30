@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Favorit = () => {
   const [favorites, setFavorites] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const API_KEY = "ff77df9518d849239f74a4fca1ec7bdb"; // Ganti dengan API kamu
+  const API_KEY = "ff77df9518d849239f74a4fca1ec7bdb";
 
   const getDetailRecipe = async (recipeId) => {
     try {
@@ -39,7 +41,6 @@ const Favorit = () => {
               detail,
             };
           } else if (fav.sourceType === "indonesia") {
-            // Pastikan backend sudah mengirim data bahan dan nutrisi
             return {
               ...fav,
               detail: {
@@ -56,7 +57,7 @@ const Favorit = () => {
               },
             };
           } else {
-            return fav; // fallback untuk data tak dikenal
+            return fav;
           }
         })
       );
@@ -103,77 +104,85 @@ const Favorit = () => {
   const totalPages = Math.ceil(favorites.length / itemsPerPage);
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white">
       <Navbar />
-      <div className="container mx-auto px-4 py-6">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white bg-black md:w-100 mx-auto py-2 rounded-sm">
-          Daftar Resep Favoritmu
+
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">
+          Resep Favoritmu
         </h2>
 
         {favorites.length === 0 ? (
-          <p className="text-center text-gray-500 text-2xl">Belum ada resep favorit.</p>
+          <p className="text-center text-gray-500 text-xl">
+            Belum ada resep favorit.
+          </p>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {currentFavorites.map((fav) => (
-                <div
-                  key={fav.id}
-                  className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 p-4 relative"
-                >
-                  <img
-                    src={fav.image}
-                    alt={fav.title}
-                    className="rounded-lg mb-2 w-full h-44 object-cover"
-                  />
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    {fav.title}
-                  </h3>
-
-                  <p className="font-semibold text-sm text-gray-700">
-                    Bahan-bahan:
-                  </p>
-                  <ul className="list-disc list-inside text-sm text-gray-600 mb-2">
-                    {fav.detail?.extendedIngredients
-                      ?.slice(0, 4)
-                      .map((ing, i) => (
-                        <li key={i}>{ing.original}</li>
-                      ))}
-                  </ul>
-
-                  <p className="font-semibold text-sm text-gray-700">
-                    Nutrisi:
-                  </p>
-                  <ul className="text-sm text-gray-600">
-                    {fav.detail?.nutrition?.nutrients
-                      ?.slice(0, 4)
-                      .map((n, i) => (
-                        <li key={i}>
-                          {n.name}: {n.amount} {n.unit}
-                        </li>
-                      ))}
-                  </ul>
-
-                  <button
-                    onClick={() => hapusFavorit(fav.id)}
-                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded"
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <AnimatePresence>
+                {currentFavorites.map((fav, index) => (
+                  <motion.div
+                    key={fav.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: index * 0.05, duration: 0.5 }}
+                    className="relative bg-white/70 backdrop-blur-lg shadow-xl rounded-2xl p-5 border border-gray-200 hover:scale-[1.02] hover:shadow-2xl transition duration-300"
                   >
-                    Hapus
-                  </button>
-                </div>
-              ))}
+                    <img
+                      src={fav.image}
+                      alt={fav.title}
+                      className="rounded-xl mb-4 w-full h-44 object-cover"
+                    />
+                    <h3 className="text-xl font-bold text-gray-700 mb-3">
+                      {fav.title}
+                    </h3>
+
+                    <div className="mb-3">
+                      <p className="font-semibold text-gray-700">Bahan:</p>
+                      <ul className="list-disc list-inside text-gray-600 text-sm">
+                        {fav.detail?.extendedIngredients
+                          ?.slice(0, 4)
+                          .map((ing, i) => (
+                            <li key={i}>{ing.original}</li>
+                          ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-gray-700">Nutrisi:</p>
+                      <ul className="text-gray-600 text-sm">
+                        {fav.detail?.nutrition?.nutrients
+                          ?.slice(0, 4)
+                          .map((n, i) => (
+                            <li key={i}>
+                              {n.name}: {n.amount} {n.unit}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                    <button
+                      onClick={() => hapusFavorit(fav.id)}
+                      className="absolute -top-3 -right-1 bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-3 rounded-full shadow"
+                    >
+                      X
+                    </button>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center items-center gap-2 mt-8">
+            <div className="flex justify-center mt-10 gap-2">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (page) => (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition duration-300 ${
+                    className={`w-9 h-9 rounded-lg py-2 px-4 text-sm font-medium transition-all duration-300 ${
                       page === currentPage
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-200 text-gray-800 hover:bg-blue-100"
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-blue-100"
                     }`}
                   >
                     {page}

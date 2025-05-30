@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const ResepIndonesia = () => {
   const [recipes, setRecipes] = useState([]);
@@ -208,6 +209,7 @@ const ResepIndonesia = () => {
           </div>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

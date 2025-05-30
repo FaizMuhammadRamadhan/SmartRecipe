@@ -1,5 +1,4 @@
 const countryMapping = {
-  indonesia: "Indonesian", // Tetap Asian biar nggak kosong
   italia: "Italian",
   jepang: "Japanese",
   india: "Indian",

@@ -46,7 +46,7 @@ const AddRecipe = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-6 max-w-3xl mx-auto bg-white rounded-lg shadow-md">
+      <div className="p-6 max-w-3xl mx-auto bg-white rounded-lg shadow-md my-5">
         <h1 className="text-3xl font-bold mb-6 text-center">
           Tambah Resep Baru
         </h1>

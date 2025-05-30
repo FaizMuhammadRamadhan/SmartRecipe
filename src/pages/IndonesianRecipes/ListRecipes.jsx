@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const ListRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -74,7 +75,7 @@ const ListRecipes = () => {
           />
         </div>
 
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {filteredRecipes.map((recipe) => (
             <div
               key={recipe.id}
@@ -110,8 +111,8 @@ const ListRecipes = () => {
           ))}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
-
 export default ListRecipes;

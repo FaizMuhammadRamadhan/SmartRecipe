@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import countryMapping from "../constants/countryMapping";
 import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const ResepNegara = () => {
   const [negara, setNegara] = useState("");
@@ -27,7 +28,7 @@ const ResepNegara = () => {
           params: {
             cuisine: countryMapping[negara.toLowerCase()],
             number: 100,
-            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
+            apiKey: "f83e042219484f66af543881113c9b3a",
           },
         }
       );
@@ -45,7 +46,7 @@ const ResepNegara = () => {
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
           params: {
-            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
+            apiKey: "f83e042219484f66af543881113c9b3a",
           },
         }
       );
@@ -63,6 +64,7 @@ const ResepNegara = () => {
       console.error("Gagal mengambil detail resep:", error.message);
     }
   };
+
   const tambahFavorit = async (resep) => {
     const token = localStorage.getItem("token");
 
@@ -76,7 +78,7 @@ const ResepNegara = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/favorites", // ✅ cocok dengan backend      
+        "http://localhost:5000/api/favorites",
         {
           recipeId: resep.id,
           title: resep.title,
@@ -110,23 +112,40 @@ const ResepNegara = () => {
 
   const gantiHalaman = (nomorHalaman) => setHalamanSaatIni(nomorHalaman);
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      getRecipesByCountry();
+    }
+  };
+
+  const totalHalaman = Math.ceil(resep.length / resepPerHalaman);
+
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl font-extrabold text-center text-[#2E5077] mb-6">
-            Resep dari Berbagai Negara
-          </h1>
-          <p className="text-center text-gray-500 mb-8">
-            Pilih negara dan temukan resep lezat dari seluruh dunia!
-          </p>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="min-h-screen bg-[#f8fafc] px-4 py-6 sm:px-6 lg:px-8"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-[#2E5077] mb-4">
+              Jelajahi Resep Dunia
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600">
+              Pilih negara dan temukan inspirasi resep lezat dari berbagai
+              belahan dunia.
+            </p>
+          </div>
 
-          <div className="flex gap-3 mb-8 px-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
             <select
               value={negara}
               onChange={(e) => setNegara(e.target.value)}
-              className="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-[#3b82f6] transition"
+              onKeyDown={handleKeyDown}
+              className="w-full sm:w-80 p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-[#3b82f6] transition"
             >
               <option value="">Pilih Negara</option>
               {Object.keys(countryMapping).map((key) => (
@@ -137,9 +156,9 @@ const ResepNegara = () => {
             </select>
             <button
               onClick={getRecipesByCountry}
-              className="bg-[#3b82f6] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#2563eb] transition"
+              className="bg-[#3b82f6] text-white font-semibold px-6 py-3 rounded-xl hover:bg-[#2563eb] transition"
             >
-              Cari
+              Cari Resep
             </button>
           </div>
 
@@ -149,7 +168,7 @@ const ResepNegara = () => {
             {resepSaatIni.map((item) => (
               <motion.div
                 key={item.id}
-                className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition-transform transform hover:scale-105"
+                className="bg-white rounded-2xl shadow hover:shadow-lg transform transition-transform hover:scale-105 overflow-hidden"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
@@ -163,22 +182,45 @@ const ResepNegara = () => {
                   <h2 className="text-lg font-bold text-[#2E5077] truncate">
                     {item.title}
                   </h2>
-                  <button
-                    onClick={() => getDetailResep(item.id)}
-                    className="bg-[#3b82f6] text-white w-full py-2 mt-3 font-semibold rounded-lg hover:bg-[#2563eb] transition"
-                  >
-                    Lihat Detail
-                  </button>
-                  <button
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      onClick={() => getDetailResep(item.id)}
+                      className="bg-[#3b82f6] text-white w-full py-2 text-sm font-semibold rounded-lg hover:bg-[#2563eb]"
+                    >
+                      Detail
+                    </button>
+                    <button
                       onClick={() => tambahFavorit(item)}
-                      className="flex-1 bg-pink-500 text-white py-2 font-semibold rounded-lg hover:bg-pink-600 transition"
+                      className="bg-pink-500 text-white w-full py-2 text-sm font-semibold rounded-lg hover:bg-pink-600"
                     >
                       ❤️ Favorit
                     </button>
+                  </div>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalHalaman > 1 && (
+            <div className="flex justify-center mt-10 space-x-2">
+              {Array.from({ length: totalHalaman }, (_, i) => i + 1).map(
+                (num) => (
+                  <button
+                    key={num}
+                    onClick={() => gantiHalaman(num)}
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${
+                      halamanSaatIni === num
+                        ? "bg-[#735557] text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-[#C89595]"
+                    }`}
+                  >
+                    {num}
+                  </button>
+                )
+              )}
+            </div>
+          )}
 
           <AnimatePresence>
             {showDetail && detailResep && (
@@ -189,7 +231,7 @@ const ResepNegara = () => {
                 exit={{ opacity: 0 }}
               >
                 <motion.div
-                  className="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+                  className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto"
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0.8 }}
@@ -198,48 +240,40 @@ const ResepNegara = () => {
                   <img
                     src={detailResep.image}
                     alt={detailResep.title}
-                    className="w-full h-64 object-cover mb-4 rounded-lg"
+                    className="w-full h-64 object-cover mb-4 rounded-xl"
                   />
                   <h2 className="text-2xl font-bold mb-2">
                     {detailResep.title}
                   </h2>
                   <p className="text-gray-600 mb-2">
-                    🍽️ Tipe Hidangan: {detailResep.dishTypes.join(", ")}
+                    Tipe: {detailResep.dishTypes.join(", ")}
                   </p>
                   <p className="text-gray-600 mb-4">
-                    🌍 Asal Masakan: {detailResep.cuisines.join(", ")}
+                    Asal: {detailResep.cuisines.join(", ")}
                   </p>
+                  <h3 className="text-lg font-bold mb-2">Bahan-bahan:</h3>
+                  <ul className="list-disc list-inside text-gray-700 space-y-1 mb-4">
+                    {detailResep.extendedIngredients.map((ing, idx) => (
+                      <li key={idx}>{ing.original}</li>
+                    ))}
+                  </ul>
 
-                  {/* Daftar Bahan Makanan */}
-                  <div className="mb-4">
-                    <h3 className="text-lg font-bold mb-2">🛒 Daftar Bahan:</h3>
-                    <ul className="list-disc list-inside text-gray-700 space-y-1">
-                      {detailResep.extendedIngredients.map(
-                        (ingredient, index) => (
-                          <li key={index}>{ingredient.original}</li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-
-                  {/* Skor Kualitas Resep */}
                   {detailResep.spoonacularScore !== null && (
                     <p className="text-gray-700 mb-4">
-                      ⭐ Skor Kualitas:{" "}
+                      Skor:{" "}
                       <span className="font-semibold text-green-600">
                         {detailResep.spoonacularScore.toFixed(1)} / 100
                       </span>
                     </p>
                   )}
 
-                  {/* Link ke Sumber Resep */}
                   <a
                     href={detailResep.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:underline block mb-4"
                   >
-                    🔗 Lihat Resep Lengkap
+                    Lihat Resep Lengkap
                   </a>
 
                   <button
@@ -253,7 +287,8 @@ const ResepNegara = () => {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
+      <Footer />
     </div>
   );
 };

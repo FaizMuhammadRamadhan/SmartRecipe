@@ -7,6 +7,7 @@ import Loading from "../components/Loading";
 import Headerpage from "../components/Headerpage";
 import Navbar from "../components/Navbar";
 import Swal from "sweetalert2";
+import Footer from "../components/Footer";
 
 const formatBahan = (input) => {
   return input
@@ -41,7 +42,7 @@ const CariResep = () => {
           params: {
             ingredients: formattedBahan,
             number: 100,
-            apiKey: "ff77df9518d849239f74a4fca1ec7bdb",
+            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
           },
         }
       );
@@ -61,7 +62,7 @@ const CariResep = () => {
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
           params: {
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
             includeNutrition: true,
           },
         }
@@ -197,10 +198,20 @@ const CariResep = () => {
                   <h2 className="text-lg font-bold text-[#2E5077] truncate">
                     {item.title}
                   </h2>
-                  <div className="flex gap-2 mt-3">
+                  {/* Tambahan informasi */}
+                  <p className="text-sm text-gray-600 mt-1">
+                    Bahan yang cocok: {item.usedIngredientCount} • Bahan
+                    tambahan: {item.missedIngredientCount}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Total bahan:{" "}
+                    {item.usedIngredientCount + item.missedIngredientCount}
+                  </p>
+
+                  <div className="flex gap-2 mt-4">
                     <button
                       onClick={() => lihatDetailResep(item.id)}
-                      className="flex-1 bg-[#3b82f6] text-white py-2 font-semibold rounded-lg hover:bg-[#2563eb] transition"
+                      className="flex-1 bg-[#C89595] hover:bg-[#a87373] text-white py-2 font-semibold rounded-lg transition"
                     >
                       Lihat Detail
                     </button>
@@ -226,9 +237,9 @@ const CariResep = () => {
                   onClick={() => gantiHalaman(index + 1)}
                   className={`px-4 py-2 rounded-lg ${
                     halamanSaatIni === index + 1
-                      ? "bg-[#3b82f6] text-white"
-                      : "bg-gray-200 text-gray-700"
-                  } hover:bg-[#2563eb] transition`}
+                      ? "bg-[#735557] text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-[#C89595]"
+                  } hover:bg-[#C89595] transition`}
                 >
                   {index + 1}
                 </button>
@@ -269,14 +280,14 @@ const CariResep = () => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    ⏱️ <span className="font-semibold">Waktu Masak:</span>{" "}
+                    <span className="font-semibold">Waktu Masak:</span>{" "}
                     {detailResep.readyInMinutes} menit
                   </div>
                 </div>
 
                 <div className="mb-6">
                   <h3 className="text-2xl font-bold text-[#2E5077] mb-2">
-                    🛒 Bahan:
+                    Bahan:
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700">
                     {bahanPerPorsi.map((item) => {
@@ -294,11 +305,12 @@ const CariResep = () => {
 
                 <div className="mb-6">
                   <h3 className="text-2xl font-bold text-[#2E5077] mb-2">
-                    👨‍🍳 Instruksi:
+                    Instruksi:
                   </h3>
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: detailResep.instructions || "<p>Tidak tersedia.</p>",
+                      __html:
+                        detailResep.instructions || "<p>Tidak tersedia.</p>",
                     }}
                     className="text-gray-700 leading-relaxed"
                   />
@@ -307,7 +319,7 @@ const CariResep = () => {
                 {detailResep.nutrition && (
                   <div className="mb-6">
                     <h3 className="text-2xl font-bold text-[#2E5077] mb-2">
-                      🧪 Informasi Nutrisi:
+                      Informasi Nutrisi:
                     </h3>
                     <ul className="text-gray-700 list-disc list-inside">
                       {detailResep.nutrition.nutrients
@@ -326,6 +338,7 @@ const CariResep = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };
