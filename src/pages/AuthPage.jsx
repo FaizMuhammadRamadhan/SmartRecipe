@@ -57,13 +57,13 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#C89595] px-4 animate-fade-in">
-      <div className="bg-[#FDEFEF] shadow-xl rounded-3xl w-full max-w-md p-10 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
+    <div className="flex items-center justify-center min-h-screen bg-[#C89595] px-6 animate-fade-in">
+      <div className="bg-[#FDEFEF] shadow-xl rounded-3xl w-full max-w-md p-8 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
         <img src="images/logo.png" alt="" className="w-32 mx-auto"/>
         <h2 className="text-3xl font-extrabold text-center mb-6 text-[#735557]">
           {isLogin ? "LOGIN" : "REGISTER"}
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
             <input
               type="text"

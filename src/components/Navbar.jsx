@@ -57,7 +57,7 @@ export default function Navbar() {
       <li><Link to="/favorit-saya">Favorit Saya</Link></li>
       {role === "superadmin" && (
         <>
-        <li><Link to="/indonesian-recipes">Tambah</Link></li>
+        <li><Link to="/indonesian-recipes">ResepAdd</Link></li>
         <li><Link to="/manage-users">Manage Akun</Link></li>
         </>
       )}

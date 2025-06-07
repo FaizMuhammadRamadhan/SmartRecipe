@@ -24,7 +24,7 @@ const Fitur = [
   {
     id: 3,
     foto: "images/resep-makanan-negara.png",
-    judul: "Resep Berbagai Negara",
+    judul: "Resep Manca Negara",
     deskripsi:
       "Jelajahi cita rasa khas dari berbagai negara seperti Jepang, Italia, dan banyak lagi!",
     link: "/resepberbagainegara",
@@ -76,7 +76,7 @@ const Homepage = () => {
           Jelajahi fitur menarik yang siap membantu kamu menemukan inspirasi
           memasak!
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-20 mb-6 py-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-18 mb-6 py-2">
           {Fitur.map((list, index) => (
             <motion.div
               key={list.id}

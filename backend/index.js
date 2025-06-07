@@ -24,12 +24,12 @@ console.log("🔥 indonesianRecipesRoutes loaded");
 const authRoutes = require("./routes/authRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const indonesianRecipesRoutes = require("./routes/indonesianRecipes");
-const userRoutes = require("./routes/userRoutes"); // ✅ Tambahkan ini
+const userRoutes = require("./routes/userRoutes"); 
 
 app.use("/api/auth", authRoutes);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/indonesian-recipes", indonesianRecipesRoutes);
-app.use("/api/users", userRoutes); // ✅ Tambahkan ini juga
+app.use("/api/users", userRoutes);
 
 
 sequelize

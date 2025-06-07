@@ -1,9 +1,9 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const secretKey = 'RAHASIA_SUPER_AMAN';
-
+const secretKey = process.env.JWT_SECRET;
 const register = async (req, res) => {
   console.log('🔥 Register endpoint hit');
 
@@ -67,13 +67,11 @@ const login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // 🔥 Kirim token + role di response
     res.status(200).json({ token, role: user.role });
   } catch (error) {
     console.error('❌ Error logging in:', error);
     res.status(500).json({ error: error.message });
   }
 };
-
 
 module.exports = { register, login };

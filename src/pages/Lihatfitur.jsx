@@ -24,7 +24,7 @@ const Fitur = [
   {
     id: 3,
     foto: "images/resep-makanan-negara.png",
-    judul: "Resep Berbagai Negara",
+    judul: "Resep Manca Negara",
     deskripsi:
       "Jelajahi cita rasa khas dari berbagai negara seperti Jepang, Italia, dan banyak lagi!",
     link: "/resepberbagainegara",

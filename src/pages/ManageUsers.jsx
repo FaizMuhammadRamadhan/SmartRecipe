@@ -114,131 +114,169 @@ const ManageUser = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="p-6 max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Manajemen User</h1>
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow"
-            onClick={() => {
-              setIsEdit(false);
-              setFormUser({
-                username: "",
-                email: "",
-                password: "",
-                role: "user",
-              });
-              setShowForm(true);
-            }}
-          >
-            Tambah User
-          </button>
-        </div>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow p-6 max-w-6xl mx-auto w-full">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">Manajemen User</h1>
+            <button
+              className="bg-[#C89595] hover:px-7 text-white font-semibold py-2 px-5 rounded-lg transition"
+              onClick={() => {
+                setIsEdit(false);
+                setFormUser({
+                  username: "",
+                  email: "",
+                  password: "",
+                  role: "user",
+                });
+                setShowForm(true);
+              }}
+            >
+              + Tambah User
+            </button>
+          </div>
 
-        {/* Modal Form */}
-        {showForm && (
-          <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300">
-            <div className="bg-white w-full max-w-md md:max-w-3xl p-6 rounded shadow-lg relative animate-fade-in">
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-red-600 text-2xl"
-                onClick={() => setShowForm(false)}
-              >
-                &times;
-              </button>
-              <h2 className="text-xl font-semibold mb-4">
-                {isEdit ? "Edit User" : "Tambah User"}
-              </h2>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  name="username"
-                  value={formUser.username}
-                  onChange={handleChange}
-                  placeholder="Username"
-                  className="w-full border px-3 py-2 rounded"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formUser.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  className="w-full border px-3 py-2 rounded"
-                />
-                <input
-                  type="password"
-                  name="password"
-                  value={formUser.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                  className="w-full border px-3 py-2 rounded"
-                />
-                <select
-                  name="role"
-                  value={formUser.role}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                >
-                  <option value="user">User</option>
-                  <option value="superadmin">Superadmin</option>
-                </select>
+          {/* Modal Form */}
+          {showForm && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-md">
+              <div className="relative w-full max-w-lg p-8 bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl border border-white/40 animate-fade-in-up">
                 <button
-                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded"
-                  onClick={handleSubmit}
+                  onClick={() => setShowForm(false)}
+                  className="absolute top-3 right-3 bg-white/60 hover:bg-red-500 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center shadow transition"
                 >
-                  {isEdit ? "Simpan Perubahan" : "Tambah User"}
+                  &times;
                 </button>
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+                  {isEdit ? "Edit User" : "Tambah User"}
+                </h2>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
+                  className="space-y-5"
+                >
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      name="username"
+                      value={formUser.username}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#C89595] transition"
+                      placeholder="Masukkan username"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formUser.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#C89595] transition"
+                      placeholder="Masukkan email"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formUser.password}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#C89595] transition"
+                      placeholder="Masukkan password"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Role
+                    </label>
+                    <select
+                      name="role"
+                      value={formUser.role}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#C89595] transition"
+                      required
+                    >
+                      <option value="user">User</option>
+                      <option value="superadmin">Superadmin</option>
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-[#C89595] text-white font-semibold py-2 rounded-lg transition"
+                  >
+                    {isEdit ? "Simpan Perubahan" : "Tambah User"}
+                  </button>
+                </form>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* User Table */}
-        <div className="overflow-x-auto shadow rounded bg-white">
-          <table className="min-w-full table-auto text-left border-collapse">
-            <thead className="bg-gray-100">
-              <tr className="text-center">
-                <th className="px-4 py-2 border">Username</th>
-                <th className="px-4 py-2 border">Email</th>
-                <th className="px-4 py-2 border">Role</th>
-                <th className="px-4 py-2 border text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {users.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 transition-all">
-                  <td className="px-4 py-2 border">{user.username}</td>
-                  <td className="px-4 py-2 border">{user.email}</td>
-                  <td className="px-4 py-2 border capitalize">{user.role}</td>
-                  <td className="px-4 py-2 border text-center space-x-2">
-                    <button
-                      className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
-                      onClick={() => handleEdit(user)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-                      onClick={() => handleDelete(user.id)}
-                    >
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {users.length === 0 && (
+          {/* Tabel User */}
+          <div className="overflow-x-auto shadow rounded bg-white mt-4">
+            <table className="min-w-full text-sm text-left border border-gray-200">
+              <thead className="bg-gray-100 text-gray-700">
                 <tr>
-                  <td
-                    colSpan="4"
-                    className="text-center py-4 text-gray-500 italic"
-                  >
-                    Tidak ada user ditemukan.
-                  </td>
+                  <th className="px-4 py-2 border">Username</th>
+                  <th className="px-4 py-2 border">Email</th>
+                  <th className="px-4 py-2 border">Role</th>
+                  <th className="px-4 py-2 border text-center">Aksi</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50 transition">
+                    <td className="px-4 py-2 border">{user.username}</td>
+                    <td className="px-4 py-2 border">{user.email}</td>
+                    <td className="px-4 py-2 border capitalize">{user.role}</td>
+                    <td className="px-4 py-2 border text-center space-x-2">
+                      <button
+                        className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
+                        onClick={() => handleEdit(user)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                        onClick={() => handleDelete(user.id)}
+                      >
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {users.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="text-center py-4 text-gray-500 italic"
+                    >
+                      Tidak ada user ditemukan.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </main>
+        <Footer />
       </div>
     </>
   );
