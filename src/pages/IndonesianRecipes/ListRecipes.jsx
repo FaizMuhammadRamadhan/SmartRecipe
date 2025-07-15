@@ -21,7 +21,7 @@ const ListRecipes = () => {
   const deleteRecipe = async (id) => {
     const confirm = await Swal.fire({
       title: "Yakin mau hapus?",
-      text: "Data yang dihapus tidak bisa dikembalikan!",
+      text: "Resep ini akan hilang dari fitur resep indonesia",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, hapus!",

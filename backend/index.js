@@ -3,6 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const sequelize = require("./config/db");
 const cors = require("cors");
+const authRoutes = require("./routes/authRoutes");
+const favoriteRoutes = require("./routes/favoriteRoutes");
+const indonesianRecipesRoutes = require("./routes/indonesianRecipes");
+const userRoutes = require("./routes/userRoutes"); 
 
 const app = express();
 
@@ -17,14 +21,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log("🔥 authRoutes loaded");
-console.log("🔥 favoriteRoutes loaded");
-console.log("🔥 indonesianRecipesRoutes loaded");
 
-const authRoutes = require("./routes/authRoutes");
-const favoriteRoutes = require("./routes/favoriteRoutes");
-const indonesianRecipesRoutes = require("./routes/indonesianRecipes");
-const userRoutes = require("./routes/userRoutes"); 
 
 app.use("/api/auth", authRoutes);
 app.use("/api/favorites", favoriteRoutes);

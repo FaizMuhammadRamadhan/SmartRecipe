@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_KEY }  from "../constants/apiConfig";
 import countryMapping from "../constants/countryMapping";
 import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
@@ -17,6 +18,7 @@ const ResepNegara = () => {
 
   const resepPerHalaman = 12;
 
+
   const getRecipesByCountry = async () => {
     if (!negara) return;
     setLoading(true);
@@ -28,7 +30,7 @@ const ResepNegara = () => {
           params: {
             cuisine: countryMapping[negara.toLowerCase()],
             number: 100,
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: API_KEY,
           },
         }
       );
@@ -46,7 +48,7 @@ const ResepNegara = () => {
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
           params: {
-            apiKey: "f83e042219484f66af543881113c9b3a",
+            apiKey: API_KEY,
           },
         }
       );

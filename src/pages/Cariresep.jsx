@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { API_KEY }  from "../constants/apiConfig";
 import bahanMapping from "../constants/bahanMapping";
 import Loading from "../components/Loading";
 import Headerpage from "../components/Headerpage";
@@ -42,7 +43,7 @@ const CariResep = () => {
           params: {
             ingredients: formattedBahan,
             number: 100,
-            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
+            apiKey: API_KEY, 
           },
         }
       );
@@ -62,7 +63,7 @@ const CariResep = () => {
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
           params: {
-            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
+            apiKey: API_KEY, 
             includeNutrition: true,
           },
         }

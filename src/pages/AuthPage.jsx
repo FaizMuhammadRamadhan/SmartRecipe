@@ -72,7 +72,6 @@ export default function AuthPage() {
               value={formData.username}
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
-              required
             />
           )}
           <input
@@ -82,7 +81,6 @@ export default function AuthPage() {
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
-            required
           />
           <input
             type="password"
@@ -91,7 +89,6 @@ export default function AuthPage() {
             value={formData.password}
             onChange={handleChange}
             className="w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E1F00]"
-            required
           />
           <button
             type="submit"

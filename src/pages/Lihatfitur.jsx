@@ -40,9 +40,9 @@ const Fitur = [
 ];
 const Lihatfitur = () => {
   return (
-    <div>
+    <div className="bg-[#ECF4FF]">
       <Navbar />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-16 mb-6 my-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 px-16 mb-6 my-5 bg-[#ECF4FF]">
         {Fitur.map((list, index) => (
           <motion.div
             key={list.id}

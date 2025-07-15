@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_KEY }  from "../constants/apiConfig";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import Swal from "sweetalert2";
@@ -24,7 +25,7 @@ const Resepdiet = () => {
           params: {
             diet,
             number: 50,
-            apiKey: "017e95c3962f4bcea358dfb7e50c99e2",
+            apiKey: API_KEY, 
           },
         }
       );
@@ -41,7 +42,7 @@ const Resepdiet = () => {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/${id}/information`,
         {
-          params: { apiKey: "017e95c3962f4bcea358dfb7e50c99e2" },
+          params: { apiKey: API_KEY },
         }
       );
       setDetailResep({

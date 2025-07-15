@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { div } from "framer-motion/client";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const AddRecipe = () => {
   const [form, setForm] = useState({
@@ -115,20 +116,21 @@ const AddRecipe = () => {
           <div className="grid grid-cols-2 gap-2">
             <button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition md:mb-4"
             >
               Simpan Resep
             </button>
             <button
               type="button"
               onClick={() => navigate("/indonesian-recipes")}
-              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition"
+              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition md:mb-4"
             >
               Batal
             </button>
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 };

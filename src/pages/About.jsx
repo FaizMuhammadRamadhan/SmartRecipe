@@ -68,11 +68,13 @@ export default function About() {
           variants={fadeInUp}
           transition={{ duration: 0.6 }}
         >
-          <img
-            src="images/image-about.jpeg"
-            alt="Ilustrasi Memasak"
-            className="w-full h-64 md:h-100 object-fill rounded-2xl shadow-md"
-          />
+          <a href="https://www.instagram.com/">
+            <img
+              src="images/image-about.jpeg"
+              alt="Ilustrasi Memasak"
+              className="w-full h-64 md:h-100 object-fill rounded-2xl shadow-md"
+            />
+          </a>
         </motion.div>
 
         {/* Features */}

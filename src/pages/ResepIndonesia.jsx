@@ -174,16 +174,10 @@ const ResepIndonesia = () => {
                     href={recipe.videoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline mt-auto mb-3 cursor-pointer"
+                    className="text-sm text-white text-center hover:underline mt-auto mb-3 cursor-pointer bg-blue-600 py-3 rounded-sm"
                   >
                     Lihat Video Masak
                   </a>
-                  <button
-                    onClick={() => handleAddToFavorite(recipe)}
-                    className="bg-[#C89595] hover:bg-[#a87373] text-white font-semibold py-2 px-4 rounded-lg transition"
-                  >
-                    Tambah ke Favorit
-                  </button>
                 </div>
               </div>
             ))}
